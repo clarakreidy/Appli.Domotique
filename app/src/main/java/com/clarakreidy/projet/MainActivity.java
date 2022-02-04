@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        Intent intent = new Intent(this, RoomsViewListActivity.class);
+
         AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/auth")
                 .addBodyParameter("login", emailValue)
                 .addBodyParameter("password", passwordValue)
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                             editor.commit();
 
                             generateToast("Success.");
+                            startActivity(intent);
                         } catch (JSONException e) {
                             generateToast("An error has occurred. Try updating the app.");
                         }
