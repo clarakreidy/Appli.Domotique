@@ -69,6 +69,7 @@ public class CreateSensors extends DialogFragment {
 
         Bundle args = getArguments();
         int roomId = args.getInt("roomId", 0);
+        String roomName = args.getString("roomName", "Room");
 
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_domotique, parent, false);
 
@@ -153,6 +154,7 @@ public class CreateSensors extends DialogFragment {
             Integer idRoom = roomId;
             Intent intent = new Intent(getContext(), RoomActivity.class);
             intent.putExtra("id", idRoom);
+            intent.putExtra("name", roomName);
 
             AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/sensor-create")
                     .addHeaders("Authorization", bearerToken)

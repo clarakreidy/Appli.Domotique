@@ -29,19 +29,21 @@ public class RoomActivity extends AppCompatActivity {
     Integer id;
     String bearerToken;
     ArrayList<Domotique> sensors = new ArrayList<>();
+    String roomName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
-        TextView roomName = (TextView) findViewById(R.id.edit_room_name);
+        TextView roomNameText = (TextView) findViewById(R.id.edit_room_name);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            roomName.setText(extras.getString("name"));
+            roomNameText.setText(extras.getString("name"));
             this.id = extras.getInt("id");
         }
+        roomName = extras.getString("name");
 
         bearerToken = "Bearer " + getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
         ListView listView = (ListView) findViewById(R.id.sensors_list);
@@ -116,6 +118,7 @@ public class RoomActivity extends AppCompatActivity {
 
         Bundle args = new Bundle();
         args.putInt("roomId", id);
+        args.putString("roomName", roomName);
         dialog.setArguments(args);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
