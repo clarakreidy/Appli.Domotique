@@ -29,6 +29,8 @@ public class Domotique {
         return picture;
     }
 
+    public void setPicture(String url) { this.picture = url;}
+
     @Override
     public String toString() {
         return name;
