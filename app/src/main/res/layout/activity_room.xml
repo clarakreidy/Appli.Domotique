@@ -10,7 +10,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <TextView
@@ -26,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="15dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,7 +69,8 @@
                 <ListView
                     android:id="@+id/sensors_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
 
                 </ListView>
             </LinearLayout>
@@ -77,7 +82,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="15dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -111,10 +117,12 @@
                         android:src="@drawable/outline_add_black_24"
                         app:fabCustomSize="36dp" />
                 </LinearLayout>
+
                 <ListView
                     android:id="@+id/devices_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
 
                 </ListView>
             </LinearLayout>

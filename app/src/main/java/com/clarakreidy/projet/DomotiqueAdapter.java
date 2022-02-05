@@ -52,8 +52,8 @@ public class DomotiqueAdapter extends ArrayAdapter<Domotique> {
         View view = layoutInflater.inflate(resource, null, false);
 
         //getting the view elements of the list from the view
-        ImageView imageView = view.findViewById(R.id.room_img);
-        TextView textName = view.findViewById(R.id.room_name);
+        ImageView imageView = view.findViewById(R.id.domotique_img);
+        TextView textName = view.findViewById(R.id.domotique_name);
 
         //getting the hero of the specified position
         Domotique domotique = domotiques.get(position);
