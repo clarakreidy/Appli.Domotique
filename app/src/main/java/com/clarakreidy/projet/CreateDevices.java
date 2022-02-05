@@ -42,9 +42,9 @@ import java.util.ArrayList;
 
 import okhttp3.Response;
 
-public class CreateSensors extends DialogFragment {
+public class CreateDevices extends DialogFragment {
 
-    ArrayList<Domotique> sensors = new ArrayList<>();
+    ArrayList<Domotique> devices = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,22 +80,22 @@ public class CreateSensors extends DialogFragment {
 
         String bearerToken = "Bearer " + getActivity().getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
 
-        AndroidNetworking.get("https://myhouse.lesmoulinsdudev.com/sensor-types")
+        AndroidNetworking.get("https://myhouse.lesmoulinsdudev.com/device-types")
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String result = response.getJSONArray("sensor-types").toString();
+                            String result = response.getJSONArray("device-types").toString();
                             Gson gson = new Gson();
                             Type type = new TypeToken<ArrayList<Domotique>>(){}.getType();
-                            sensors.clear();
-                            sensors.addAll(gson.fromJson(result, type));
+                            devices.clear();
+                            devices.addAll(gson.fromJson(result, type));
 
                             ArrayAdapter<Domotique> arrayAdapter = new ArrayAdapter<>(
                                     getContext(),
                                     android.R.layout.simple_spinner_dropdown_item,
-                                    sensors
+                                    devices
                             );
                             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinner.setAdapter(arrayAdapter);
@@ -114,11 +114,6 @@ public class CreateSensors extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Domotique selected = (Domotique) spinner.getSelectedItem();
-                //Thermometer Typo Handling
-                if(selected.getPicture().contains("termometer"))
-                {
-                    selected.setPicture("img/thermometer.png");
-                }
                 Glide.with(getContext())
                         .asBitmap()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -150,16 +145,16 @@ public class CreateSensors extends DialogFragment {
 
         button.setOnClickListener(v -> {
             String name = domotiqueName.getText().toString();
-            Integer idSensorType = ((Domotique) spinner.getSelectedItem()).getId();
+            Integer idDeviceType = ((Domotique) spinner.getSelectedItem()).getId();
             Integer idRoom = roomId;
             Intent intent = new Intent(getContext(), RoomActivity.class);
             intent.putExtra("id", idRoom);
             intent.putExtra("name", roomName);
 
-            AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/sensor-create")
+            AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/device-create")
                     .addHeaders("Authorization", bearerToken)
                     .addBodyParameter("name", name)
-                    .addBodyParameter("idSensorType", String.valueOf(idSensorType))
+                    .addBodyParameter("idDeviceType", String.valueOf(idDeviceType))
                     .addBodyParameter("idRoom", String.valueOf(idRoom))
                     .build()
                     .getAsOkHttpResponse(new OkHttpResponseListener() {
