@@ -128,4 +128,16 @@ public class RoomActivity extends AppCompatActivity {
     public void listAllSensors() {
 
     }
+
+    public void addDevice(View view) {
+        CreateDevices dialog = new CreateDevices();
+
+        Bundle args = new Bundle();
+        args.putInt("roomId", id);
+        args.putString("roomName", roomName);
+        dialog.setArguments(args);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        dialog.show(fragmentTransaction, "DomotiqueFragment");
+    }
 }
