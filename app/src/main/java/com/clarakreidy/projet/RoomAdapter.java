@@ -1,6 +1,7 @@
 package com.clarakreidy.projet;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.clarakreidy.projet.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 
@@ -53,7 +59,21 @@ public class RoomAdapter extends ArrayAdapter<Room> {
         Room room = rooms.get(position);
 
         //adding values to the list item
-//        imageView.setImageDrawable(context.getResources().getDrawable(room.getUrl()));
+        Glide.with(context)
+            .asBitmap()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .load("https://myhouse.lesmoulinsdudev.com/" + room.getPicture())
+            .listener(new RequestListener<Bitmap>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                    return false;
+                }
+            }).into(imageView);
         textName.setText(room.getName());
 
         //finally returning the view

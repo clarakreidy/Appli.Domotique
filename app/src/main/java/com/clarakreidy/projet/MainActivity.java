@@ -56,11 +56,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            preferences = getPreferences(MODE_PRIVATE);
+                            preferences = getSharedPreferences("Auth", MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("token", response.getString("token"));
-                            editor.commit();
-
+                            editor.apply();
                             generateToast("Success.");
                             startActivity(intent);
                         } catch (JSONException e) {
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onError(ANError anError) {
-
+                        generateToast("Authentication failed.");
                     }
                 });
     }

@@ -1,8 +1,11 @@
 package com.clarakreidy.projet;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import com.androidnetworking.AndroidNetworking;
@@ -26,13 +29,15 @@ public class RoomsViewListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooms_view_list);
 
-        rooms = new ArrayList<Room>();
+        rooms = new ArrayList<>();
         ListView listView = (ListView) findViewById(R.id.room_view_list);
-        rooms.add(new Room(1, "test", "test"));
 
-        String bearerToken = "Bearer " + getPreferences(MODE_PRIVATE).getString("token", "");
+        String bearerToken = "Bearer " + getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
 
-        AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/rooms")
+        RoomAdapter adapter = new RoomAdapter(this, R.layout.room_item, rooms);
+        listView.setAdapter(adapter);
+
+        AndroidNetworking.get("https://myhouse.lesmoulinsdudev.com/rooms")
                 .addHeaders("Authorization", bearerToken)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -42,7 +47,9 @@ public class RoomsViewListActivity extends AppCompatActivity {
                             String roomsList = response.getJSONArray("rooms").toString();
                             Gson gson = new Gson();
                             Type type = new TypeToken<ArrayList<Room>>(){}.getType();
-                            rooms = gson.fromJson(roomsList, type);
+                            rooms.clear();
+                            rooms.addAll(gson.fromJson(roomsList, type));
+                            adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -53,7 +60,12 @@ public class RoomsViewListActivity extends AppCompatActivity {
 
                     }
                 });
-        RoomAdapter adapter = new RoomAdapter(this, R.layout.room_item, rooms);
-        listView.setAdapter(adapter);
     }
+
+    public void addRoom(View view) {
+        AddRoomActivity dialog = new AddRoomActivity();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        dialog.show(fragmentTransaction, "AddRoomActivity");
+    }
+
 }

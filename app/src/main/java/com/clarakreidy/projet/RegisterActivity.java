@@ -37,46 +37,42 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (nameValue.isEmpty()) {
             generateToast("Error: Name is required.");
-            return;
         } else if (emailValue.isEmpty()) {
             generateToast("Error: Email is required.");
-            return;
         } else if(!passwordValue.equals(confirmPasswordValue) || passwordValue.isEmpty() || confirmPasswordValue.isEmpty()) {
             generateToast("Error: Passwords don't match.");
-            return;
-        } else
-
-        AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/register")
-                .addBodyParameter("name", nameValue)
-                .addBodyParameter("login", emailValue)
-                .addBodyParameter("password", passwordValue)
-                .build()
-                .getAsOkHttpResponse(new OkHttpResponseListener() {
-                    @Override
-                    public void onResponse(Response response) {
-                        System.out.println(response.code());
-                        switch (response.code()){
-                            case 200:
-                                generateToast("Success.");
-                                startActivity(intent);
-                                break;
-                            case 400:
-                                generateToast("An error has occurred. Try updating the app.");
-                                break;
-                            case 500:
-                                generateToast("An error has occurred. Try again later.");
-                                break;
-                            default:
-                                generateToast("An error has occurred. Try again later.");
-                                break;
+        } else {
+            AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/register")
+                    .addBodyParameter("name", nameValue)
+                    .addBodyParameter("login", emailValue)
+                    .addBodyParameter("password", passwordValue)
+                    .build()
+                    .getAsOkHttpResponse(new OkHttpResponseListener() {
+                        @Override
+                        public void onResponse(Response response) {
+                            switch (response.code()){
+                                case 200:
+                                    generateToast("Success.");
+                                    startActivity(intent);
+                                    break;
+                                case 400:
+                                    generateToast("An error has occurred. Try updating the app.");
+                                    break;
+                                case 500:
+                                    generateToast("An error has occurred. Try again later.");
+                                    break;
+                                default:
+                                    generateToast("An error has occurred. Try again later.");
+                                    break;
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(ANError anError) {
-                        generateToast("An error has occurred. Try again later.");
-                    }
-                });
+                        @Override
+                        public void onError(ANError anError) {
+                            generateToast("An error has occurred. Try again later.");
+                        }
+                    });
+        }
     }
 
     public void generateToast(String message) {

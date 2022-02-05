@@ -2,12 +2,12 @@ package com.clarakreidy.projet;
 
 public class Room {
     private Integer id;
-    private String url;
+    private String picture;
     private String name;
 
     public Room(Integer id, String url, String name) {
         this.id = id;
-        this.url = url;
+        this.picture = url;
         this.name = name;
     }
 
@@ -15,8 +15,8 @@ public class Room {
         return id;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPicture() {
+        return picture;
     }
 
     public String getName() {
