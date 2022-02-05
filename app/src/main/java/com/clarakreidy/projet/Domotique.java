@@ -28,4 +28,9 @@ public class Domotique {
     public String getPicture() {
         return picture;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

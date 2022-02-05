@@ -1,11 +1,11 @@
 package com.clarakreidy.projet;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,11 +13,14 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.OkHttpResponseListener;
 
+import java.util.ArrayList;
+
 import okhttp3.Response;
 
 public class RoomActivity extends AppCompatActivity {
     Integer id;
     String bearerToken;
+    ArrayList<Domotique> domotiques = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,5 +70,11 @@ public class RoomActivity extends AppCompatActivity {
 
     public void generateToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void addSensor(View view) {
+        CreateSensors dialog = new CreateSensors();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        dialog.show(fragmentTransaction, "DomotiqueFragment");
     }
 }
