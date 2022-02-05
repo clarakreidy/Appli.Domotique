@@ -29,6 +29,8 @@ public class RoomActivity extends AppCompatActivity {
     Integer id;
     String bearerToken;
     ArrayList<Domotique> sensors = new ArrayList<>();
+    DomotiqueAdapter adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,9 @@ public class RoomActivity extends AppCompatActivity {
         }
 
         bearerToken = "Bearer " + getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
-        ListView listView = (ListView) findViewById(R.id.sensors_list);
+        listView = (ListView) findViewById(R.id.sensors_list);
 
-        DomotiqueAdapter adapter = new DomotiqueAdapter(this, R.layout.domotique_layout, sensors);
+        adapter = new DomotiqueAdapter(this, R.layout.domotique_layout, sensors);
         listView.setAdapter(adapter);
 
         AndroidNetworking.get("https://myhouse.lesmoulinsdudev.com/sensors")
@@ -64,8 +66,6 @@ public class RoomActivity extends AppCompatActivity {
                             sensors.addAll(gson.fromJson(sensorList, type));
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -122,7 +122,28 @@ public class RoomActivity extends AppCompatActivity {
         dialog.show(fragmentTransaction, "DomotiqueFragment");
     }
 
-    public void listAllSensors() {
+    public void deleteSensors(View view) {
+        int count = adapter.getCount();
+        for (int i = 0; i < count; i++) {
+            Domotique domotique = (Domotique) listView.getItemAtPosition(i);
+            if (domotique.isChecked()) {
+                AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/sensor-delete")
+                        .addHeaders("Authorization", bearerToken)
+                        .addBodyParameter("idSensor", String.valueOf(domotique.getId()))
+                        .build()
+                        .getAsOkHttpResponse(new OkHttpResponseListener() {
+                            @Override
+                            public void onResponse(Response response) {
+                                sensors.remove(domotique);
+                                adapter.notifyDataSetChanged();
+                            }
 
+                            @Override
+                            public void onError(ANError anError) {
+
+                            }
+                        });
+            }
+        }
     }
 }

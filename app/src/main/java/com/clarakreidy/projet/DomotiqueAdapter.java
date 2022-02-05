@@ -1,17 +1,25 @@
 package com.clarakreidy.projet;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.OkHttpResponseListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -21,6 +29,8 @@ import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Response;
 
 public class DomotiqueAdapter extends ArrayAdapter<Domotique> {
     //the list values in the List of type hero
@@ -54,6 +64,7 @@ public class DomotiqueAdapter extends ArrayAdapter<Domotique> {
         //getting the view elements of the list from the view
         ImageView imageView = view.findViewById(R.id.domotique_img);
         TextView textName = view.findViewById(R.id.domotique_name);
+        CheckBox checkBox = view.findViewById(R.id.checkbox_to_delete);
 
         //getting the hero of the specified position
         Domotique domotique = domotiques.get(position);
@@ -75,6 +86,13 @@ public class DomotiqueAdapter extends ArrayAdapter<Domotique> {
                     }
                 }).into(imageView);
         textName.setText(domotique.getName());
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                domotique.setChecked(b);
+            }
+        });
 
         //finally returning the view
         return view;
