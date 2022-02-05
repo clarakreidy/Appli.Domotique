@@ -74,6 +74,11 @@ public class RoomActivity extends AppCompatActivity {
 
     public void addSensor(View view) {
         CreateSensors dialog = new CreateSensors();
+
+        Bundle args = new Bundle();
+        args.putInt("roomId", id);
+        dialog.setArguments(args);
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         dialog.show(fragmentTransaction, "DomotiqueFragment");
     }
