@@ -30,6 +30,7 @@ public class RoomActivity extends AppCompatActivity {
     Integer id;
     String bearerToken;
     ArrayList<Domotique> sensors = new ArrayList<>();
+    ArrayList<Domotique> devices = new ArrayList<>();
     String roomName;
     DomotiqueAdapter adapter;
     ListView listView;
