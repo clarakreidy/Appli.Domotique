@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Projet" >
         <activity
-            android:name=".AddRoomActivity"
-            android:exported="false" />
-        <activity
             android:name=".RoomsViewListActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RoomActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

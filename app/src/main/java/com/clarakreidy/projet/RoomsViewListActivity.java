@@ -3,9 +3,11 @@ package com.clarakreidy.projet;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.androidnetworking.AndroidNetworking;
@@ -60,6 +62,17 @@ public class RoomsViewListActivity extends AppCompatActivity {
 
                     }
                 });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Room room = (Room) listView.getItemAtPosition(i);
+                Intent intent = new Intent(RoomsViewListActivity.this, RoomActivity.class);
+                intent.putExtra("name", room.getName());
+                intent.putExtra("id", room.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     public void addRoom(View view) {
