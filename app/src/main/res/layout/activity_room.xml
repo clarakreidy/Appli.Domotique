@@ -64,6 +64,15 @@
                         android:onClick="addSensor"
                         android:src="@drawable/outline_add_black_24"
                         app:fabCustomSize="36dp" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/delete_selected_sensors"
+                        style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Surface"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="deleteSensors"
+                        android:src="@drawable/outline_delete_black_36"
+                        app:fabCustomSize="36dp" />
                 </LinearLayout>
 
                 <ListView
@@ -116,6 +125,14 @@
                         android:layout_height="wrap_content"
                         android:onClick="addDevice"
                         android:src="@drawable/outline_add_black_24"
+                        app:fabCustomSize="36dp" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/delete_selected_devices"
+                        style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Surface"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/outline_delete_black_36"
                         app:fabCustomSize="36dp" />
                 </LinearLayout>
 

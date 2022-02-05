@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:gravity="center"
@@ -17,9 +17,8 @@
 
         <ImageView
             android:id="@+id/domotique_img"
-            android:layout_width="60dp"
+            android:layout_width="40dp"
             android:layout_height="60dp"
-            android:layout_marginRight="10dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
@@ -31,5 +30,18 @@
             android:layout_weight="1"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <Space
+            android:layout_width="139dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <CheckBox
+            android:id="@+id/checkbox_to_delete"
+            style="@style/Widget.Material3.CompoundButton.CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

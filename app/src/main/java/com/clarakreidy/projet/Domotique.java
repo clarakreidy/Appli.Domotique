@@ -5,6 +5,7 @@ public class Domotique {
     private String name;
     private String type;
     private String picture;
+    private boolean isChecked = false;
 
     public Domotique(Integer id, String name, String type, String picture) {
         this.id = id;
@@ -30,6 +31,14 @@ public class Domotique {
     }
 
     public void setPicture(String url) { this.picture = url;}
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
 
     @Override
     public String toString() {
