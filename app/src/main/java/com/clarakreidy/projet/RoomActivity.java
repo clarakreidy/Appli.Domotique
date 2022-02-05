@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class RoomActivity extends AppCompatActivity {
     Integer id;
     String bearerToken;
     ArrayList<Domotique> sensors = new ArrayList<>();
+    ArrayList<Domotique> devices = new ArrayList<>();
     String roomName;
 
     @Override
@@ -46,6 +48,8 @@ public class RoomActivity extends AppCompatActivity {
         roomName = extras.getString("name");
 
         bearerToken = "Bearer " + getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
+
+        //Sensors
         ListView listView = (ListView) findViewById(R.id.sensors_list);
 
         DomotiqueAdapter adapter = new DomotiqueAdapter(this, R.layout.domotique_layout, sensors);
@@ -65,6 +69,40 @@ public class RoomActivity extends AppCompatActivity {
                             sensors.clear();
                             sensors.addAll(gson.fromJson(sensorList, type));
                             adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+
+                    }
+                });
+
+
+        // Devices
+        ListView devicesList = (ListView) findViewById(R.id.devices_list);
+
+        DomotiqueAdapter devicesAdapter = new DomotiqueAdapter(this, R.layout.domotique_layout, devices);
+        devicesList.setAdapter(devicesAdapter);
+
+        AndroidNetworking.get("https://myhouse.lesmoulinsdudev.com/devices")
+                .addHeaders("Authorization", bearerToken)
+                .addQueryParameter("idRoom", String.valueOf(id))
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String devicesName = response.getJSONArray("devices").toString();
+                            Gson gson = new Gson();
+                            Type type = new TypeToken<ArrayList<Domotique>>(){}.getType();
+                            devices.clear();
+                            devices.addAll(gson.fromJson(devicesName, type));
+                            devicesAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (Exception e) {

@@ -71,12 +71,12 @@ public class CreateDevices extends DialogFragment {
         int roomId = args.getInt("roomId", 0);
         String roomName = args.getString("roomName", "Room");
 
-        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_device, parent, false);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_domotique, parent, false);
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.device_preview_img);
-        Spinner spinner = (Spinner) view.findViewById(R.id.device_img_spinner);
-        Button button = (Button) view.findViewById(R.id.save_new_device);
-        EditText deviceName = (EditText) view.findViewById(R.id.new_device_name);
+        ImageView imageView = (ImageView) view.findViewById(R.id.domotique_preview_img);
+        Spinner spinner = (Spinner) view.findViewById(R.id.domotique_img_spinner);
+        Button button = (Button) view.findViewById(R.id.save_new_domotique);
+        EditText domotiqueName = (EditText) view.findViewById(R.id.new_domotique_name);
 
         String bearerToken = "Bearer " + getActivity().getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
 
@@ -134,7 +134,7 @@ public class CreateDevices extends DialogFragment {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 try {
-                    ImageView imageView = (ImageView) view.findViewById(R.id.device_preview_img);
+                    ImageView imageView = (ImageView) view.findViewById(R.id.domotique_preview_img);
                     imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_launcher_foreground));
                 } catch (NullPointerException e) {
                     e.printStackTrace();
@@ -144,7 +144,7 @@ public class CreateDevices extends DialogFragment {
         });
 
         button.setOnClickListener(v -> {
-            String name = deviceName.getText().toString();
+            String name = domotiqueName.getText().toString();
             Integer idDeviceType = ((Domotique) spinner.getSelectedItem()).getId();
             Integer idRoom = roomId;
             Intent intent = new Intent(getContext(), RoomActivity.class);

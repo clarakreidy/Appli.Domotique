@@ -58,6 +58,12 @@ public class DomotiqueAdapter extends ArrayAdapter<Domotique> {
         //getting the hero of the specified position
         Domotique domotique = domotiques.get(position);
 
+        //Thermometer Typo Handling
+        if(domotique.getPicture().contains("termometer"))
+        {
+            domotique.setPicture("img/thermometer.png");
+        }
+
         //adding values to the list item
         Glide.with(context)
                 .asBitmap()
