@@ -156,34 +156,42 @@ public class CreateSensors extends DialogFragment {
             intent.putExtra("id", idRoom);
             intent.putExtra("name", roomName);
 
-            AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/sensor-create")
-                    .addHeaders("Authorization", bearerToken)
-                    .addBodyParameter("name", name)
-                    .addBodyParameter("idSensorType", String.valueOf(idSensorType))
-                    .addBodyParameter("idRoom", String.valueOf(idRoom))
-                    .build()
-                    .getAsOkHttpResponse(new OkHttpResponseListener() {
-                        @Override
-                        public void onResponse(Response response) {
-                            switch (response.code()) {
-                                case 200:
-                                    generateToast("Success.");
-                                    startActivity(intent);
-                                    break;
-                                case 400:
-                                    generateToast("An error has occurred. Try updating the app.");
-                                    break;
-                                default:
-                                    generateToast("An error has occurred. Try again later.");
-                                    break;
+            if (name.isEmpty())
+            {
+                generateToast("Error: Sensor name is required.");
+            }
+            else
+            {
+                AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/sensor-create")
+                        .addHeaders("Authorization", bearerToken)
+                        .addBodyParameter("name", name)
+                        .addBodyParameter("idSensorType", String.valueOf(idSensorType))
+                        .addBodyParameter("idRoom", String.valueOf(idRoom))
+                        .build()
+                        .getAsOkHttpResponse(new OkHttpResponseListener() {
+                            @Override
+                            public void onResponse(Response response) {
+                                switch (response.code()) {
+                                    case 200:
+                                        generateToast("Success.");
+                                        startActivity(intent);
+                                        break;
+                                    case 400:
+                                        generateToast("An error has occurred. Try updating the app.");
+                                        break;
+                                    default:
+                                        generateToast("An error has occurred. Try again later.");
+                                        break;
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onError(ANError anError) {
-                            generateToast("An error has occurred. Try again later.");
-                        }
-                    });
+                            @Override
+                            public void onError(ANError anError) {
+                                generateToast("An error has occurred. Try again later.");
+                            }
+                        });
+            }
+
         });
 
         return view;
