@@ -33,20 +33,29 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
-            android:fontFamily="@font/audiowide"
-            android:text="MyHouse!"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="@font/alegreya_sc_bold"
+            android:text="Domotiktok"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textColor="@color/purple_500"
             android:textSize="48sp" />
 
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            app:srcCompat="@drawable/domotiktok_logo" />
+
         <EditText
             android:id="@+id/login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:fontFamily="@font/yrsa"
             android:hint="Email"
             android:inputType="textEmailAddress" />
 
@@ -55,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:fontFamily="@font/yrsa"
             android:hint="Password"
             android:inputType="textPassword" />
 
@@ -64,16 +74,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:fontFamily="@font/alegreya_sc_bold"
             android:onClick="login"
-            android:text="Connexion" />
+            android:text="Connect"
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/to_register_button"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/alegreya_sc_bold"
             android:onClick="toRegister"
-            android:text="Créer un compte gratuit" />
+            android:text="Create a free account"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

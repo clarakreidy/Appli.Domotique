@@ -18,9 +18,10 @@
             android:id="@+id/list_view_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/audiowide"
-            android:text="Pièces"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+            android:fontFamily="@font/alegreya_sc_bold"
+            android:text="Rooms"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="@color/purple_500" />
 
         <Space
             android:layout_width="wrap_content"

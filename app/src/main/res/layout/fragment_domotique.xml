@@ -20,9 +20,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:fontFamily="@font/audiowide"
+                android:fontFamily="@font/alegreya_sc_bold"
+                android:gravity="center"
                 android:text="New"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/purple_500" />
 
             <EditText
                 android:id="@+id/new_domotique_name"
@@ -30,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:ems="10"
+                android:fontFamily="@font/yrsa"
                 android:hint="Name"
                 android:inputType="textPersonName" />
 
@@ -54,7 +57,9 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:text="Save" />
+                android:fontFamily="@font/alegreya_sc_bold"
+                android:text="Save"
+                android:textSize="16sp" />
 
         </LinearLayout>
 

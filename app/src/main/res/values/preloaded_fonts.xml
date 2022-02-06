@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/alegreya_sc</item>
+        <item>@font/alegreya_sc_black</item>
         <item>@font/audiowide</item>
         <item>@font/roboto</item>
+        <item>@font/trade_winds</item>
+        <item>@font/yrsa</item>
+        <item>@font/yrsa_bold</item>
+        <item>@font/yrsa_light</item>
     </array>
 </resources>
