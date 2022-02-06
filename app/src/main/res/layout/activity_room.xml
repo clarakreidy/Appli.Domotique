@@ -20,9 +20,10 @@
             android:id="@+id/edit_room_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/audiowide"
-            android:text="Pièces"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+            android:fontFamily="@font/alegreya_sc_bold"
+            android:text="Room"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="@color/purple_500" />
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.Material3.CardView.Elevated"
@@ -47,9 +48,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:fontFamily="@font/roboto"
+                        android:fontFamily="@font/alegreya_sc"
                         android:text="Sensors"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/purple_500" />
 
                     <Space
                         android:layout_width="wrap_content"
@@ -61,6 +63,7 @@
                         style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Tertiary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
                         android:onClick="addSensor"
                         android:src="@drawable/outline_add_black_24"
                         app:fabCustomSize="36dp" />
@@ -109,9 +112,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:fontFamily="@font/roboto"
+                        android:fontFamily="@font/alegreya_sc"
                         android:text="Devices"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/purple_500" />
 
                     <Space
                         android:layout_width="wrap_content"

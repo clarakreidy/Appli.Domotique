@@ -145,33 +145,40 @@ public class AddRoomActivity extends DialogFragment {
             Integer idPicture = ((Picture) spinner.getSelectedItem()).getId();
             Intent intent = new Intent(getContext(), RoomsViewListActivity.class);
 
-            AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/room-create")
-                .addHeaders("Authorization", bearerToken)
-                .addBodyParameter("name", name)
-                .addBodyParameter("idPicture", String.valueOf(idPicture))
-                .build()
-                .getAsOkHttpResponse(new OkHttpResponseListener() {
-                    @Override
-                    public void onResponse(Response response) {
-                        switch (response.code()) {
-                            case 200:
-                                generateToast("Success.");
-                                startActivity(intent);
-                                break;
-                            case 400:
-                                generateToast("An error has occurred. Try updating the app.");
-                                break;
-                            default:
-                                generateToast("An error has occurred. Try again later.");
-                                break;
-                        }
-                    }
+            if (name.isEmpty())
+            {
+                generateToast("Error: Room name is required.");
+            }
+            else
+            {
+                AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/room-create")
+                        .addHeaders("Authorization", bearerToken)
+                        .addBodyParameter("name", name)
+                        .addBodyParameter("idPicture", String.valueOf(idPicture))
+                        .build()
+                        .getAsOkHttpResponse(new OkHttpResponseListener() {
+                            @Override
+                            public void onResponse(Response response) {
+                                switch (response.code()) {
+                                    case 200:
+                                        generateToast("Success.");
+                                        startActivity(intent);
+                                        break;
+                                    case 400:
+                                        generateToast("An error has occurred. Try updating the app.");
+                                        break;
+                                    default:
+                                        generateToast("An error has occurred. Try again later.");
+                                        break;
+                                }
+                            }
 
-                    @Override
-                    public void onError(ANError anError) {
-                        generateToast("An error has occurred. Try again later.");
-                    }
-                });
+                            @Override
+                            public void onError(ANError anError) {
+                                generateToast("An error has occurred. Try again later.");
+                            }
+                        });
+            }
         });
         return view;
     }

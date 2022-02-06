@@ -1,5 +1,6 @@
 package com.clarakreidy.projet;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -73,6 +74,15 @@ public class RoomsViewListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(RoomsViewListActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     public void addRoom(View view) {
