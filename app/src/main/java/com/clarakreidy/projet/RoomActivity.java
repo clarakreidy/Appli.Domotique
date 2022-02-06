@@ -20,7 +20,6 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -33,7 +32,8 @@ public class RoomActivity extends AppCompatActivity {
     ArrayList<Domotique> devices = new ArrayList<>();
     String roomName;
     DomotiqueAdapter adapter;
-    ListView listView;
+    ListView sensorsListView;
+    ListView devicesListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +50,10 @@ public class RoomActivity extends AppCompatActivity {
         roomName = extras.getString("name");
 
         bearerToken = "Bearer " + getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
-        listView = (ListView) findViewById(R.id.sensors_list);
+        sensorsListView = (ListView) findViewById(R.id.sensors_list);
 
         adapter = new DomotiqueAdapter(this, R.layout.domotique_layout, sensors);
-        listView.setAdapter(adapter);
+        sensorsListView.setAdapter(adapter);
 
         AndroidNetworking.get("https://myhouse.lesmoulinsdudev.com/sensors")
                 .addHeaders("Authorization", bearerToken)
@@ -82,10 +82,10 @@ public class RoomActivity extends AppCompatActivity {
 
 
         // Devices
-        ListView devicesList = (ListView) findViewById(R.id.devices_list);
+        devicesListView = (ListView) findViewById(R.id.devices_list);
 
         DomotiqueAdapter devicesAdapter = new DomotiqueAdapter(this, R.layout.domotique_layout, devices);
-        devicesList.setAdapter(devicesAdapter);
+        devicesListView.setAdapter(devicesAdapter);
 
         AndroidNetworking.get("https://myhouse.lesmoulinsdudev.com/devices")
                 .addHeaders("Authorization", bearerToken)
@@ -102,8 +102,6 @@ public class RoomActivity extends AppCompatActivity {
                             devices.addAll(gson.fromJson(devicesName, type));
                             devicesAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -164,7 +162,7 @@ public class RoomActivity extends AppCompatActivity {
     public void deleteSensors(View view) {
         int count = adapter.getCount();
         for (int i = 0; i < count; i++) {
-            Domotique domotique = (Domotique) listView.getItemAtPosition(i);
+            Domotique domotique = (Domotique) sensorsListView.getItemAtPosition(i);
             if (domotique.isChecked()) {
                 AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/sensor-delete")
                         .addHeaders("Authorization", bearerToken)
@@ -196,5 +194,30 @@ public class RoomActivity extends AppCompatActivity {
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         dialog.show(fragmentTransaction, "DomotiqueFragment");
+    }
+
+    public void deleteDevices(View view) {
+        int count = adapter.getCount();
+        for (int i = 0; i < count; i++) {
+            Domotique domotique = (Domotique) sensorsListView.getItemAtPosition(i);
+            if (domotique.isChecked()) {
+                AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/sensor-delete")
+                        .addHeaders("Authorization", bearerToken)
+                        .addBodyParameter("idSensor", String.valueOf(domotique.getId()))
+                        .build()
+                        .getAsOkHttpResponse(new OkHttpResponseListener() {
+                            @Override
+                            public void onResponse(Response response) {
+                                sensors.remove(domotique);
+                                adapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onError(ANError anError) {
+
+                            }
+                        });
+            }
+        }
     }
 }
