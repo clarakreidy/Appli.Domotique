@@ -1,5 +1,6 @@
 package com.clarakreidy.projet;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -27,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                //first activity so do nothing
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     public void toRegister(View view) {
