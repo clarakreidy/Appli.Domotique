@@ -44,7 +44,7 @@ import okhttp3.Response;
 
 public class CreateDevices extends DialogFragment {
 
-    ArrayList<Domotique> devices = new ArrayList<>();
+    ArrayList<Device> devices = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class CreateDevices extends DialogFragment {
         ImageView imageView = (ImageView) view.findViewById(R.id.domotique_preview_img);
         Spinner spinner = (Spinner) view.findViewById(R.id.domotique_img_spinner);
         Button button = (Button) view.findViewById(R.id.save_new_domotique);
-        EditText domotiqueName = (EditText) view.findViewById(R.id.new_domotique_name);
+        EditText deviceName = (EditText) view.findViewById(R.id.new_domotique_name);
 
         String bearerToken = "Bearer " + getActivity().getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
 
@@ -88,11 +88,11 @@ public class CreateDevices extends DialogFragment {
                         try {
                             String result = response.getJSONArray("device-types").toString();
                             Gson gson = new Gson();
-                            Type type = new TypeToken<ArrayList<Domotique>>(){}.getType();
+                            Type type = new TypeToken<ArrayList<Device>>(){}.getType();
                             devices.clear();
                             devices.addAll(gson.fromJson(result, type));
 
-                            ArrayAdapter<Domotique> arrayAdapter = new ArrayAdapter<>(
+                            ArrayAdapter<Device> arrayAdapter = new ArrayAdapter<>(
                                     getContext(),
                                     android.R.layout.simple_spinner_dropdown_item,
                                     devices
@@ -113,7 +113,7 @@ public class CreateDevices extends DialogFragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Domotique selected = (Domotique) spinner.getSelectedItem();
+                Device selected = (Device) spinner.getSelectedItem();
                 Glide.with(getContext())
                         .asBitmap()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -144,8 +144,8 @@ public class CreateDevices extends DialogFragment {
         });
 
         button.setOnClickListener(v -> {
-            String name = domotiqueName.getText().toString();
-            Integer idDeviceType = ((Domotique) spinner.getSelectedItem()).getId();
+            String name = deviceName.getText().toString();
+            Integer idDeviceType = ((Device) spinner.getSelectedItem()).getId();
             Integer idRoom = roomId;
             Intent intent = new Intent(getContext(), RoomActivity.class);
             intent.putExtra("id", idRoom);

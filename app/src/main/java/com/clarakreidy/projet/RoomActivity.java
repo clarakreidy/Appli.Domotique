@@ -28,10 +28,11 @@ import okhttp3.Response;
 public class RoomActivity extends AppCompatActivity {
     Integer id;
     String bearerToken;
-    ArrayList<Domotique> sensors = new ArrayList<>();
-    ArrayList<Domotique> devices = new ArrayList<>();
+    ArrayList<Sensor> sensors = new ArrayList<>();
+    ArrayList<Device> devices = new ArrayList<>();
     String roomName;
-    DomotiqueAdapter adapter;
+    SensorAdapter sensorsAdapter;
+    DeviceAdapter devicesAdapter;
     ListView sensorsListView;
     ListView devicesListView;
 
@@ -52,8 +53,8 @@ public class RoomActivity extends AppCompatActivity {
         bearerToken = "Bearer " + getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
         sensorsListView = (ListView) findViewById(R.id.sensors_list);
 
-        adapter = new DomotiqueAdapter(this, R.layout.domotique_layout, sensors);
-        sensorsListView.setAdapter(adapter);
+        sensorsAdapter = new SensorAdapter(this, R.layout.sensors_layout, sensors);
+        sensorsListView.setAdapter(sensorsAdapter);
 
         AndroidNetworking.get("https://myhouse.lesmoulinsdudev.com/sensors")
                 .addHeaders("Authorization", bearerToken)
@@ -65,10 +66,10 @@ public class RoomActivity extends AppCompatActivity {
                         try {
                             String sensorList = response.getJSONArray("sensors").toString();
                             Gson gson = new Gson();
-                            Type type = new TypeToken<ArrayList<Domotique>>(){}.getType();
+                            Type type = new TypeToken<ArrayList<Sensor>>(){}.getType();
                             sensors.clear();
                             sensors.addAll(gson.fromJson(sensorList, type));
-                            adapter.notifyDataSetChanged();
+                            sensorsAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -84,7 +85,7 @@ public class RoomActivity extends AppCompatActivity {
         // Devices
         devicesListView = (ListView) findViewById(R.id.devices_list);
 
-        DomotiqueAdapter devicesAdapter = new DomotiqueAdapter(this, R.layout.domotique_layout, devices);
+        devicesAdapter = new DeviceAdapter(this, R.layout.devices_layout, devices);
         devicesListView.setAdapter(devicesAdapter);
 
         AndroidNetworking.get("https://myhouse.lesmoulinsdudev.com/devices")
@@ -97,7 +98,7 @@ public class RoomActivity extends AppCompatActivity {
                         try {
                             String devicesName = response.getJSONArray("devices").toString();
                             Gson gson = new Gson();
-                            Type type = new TypeToken<ArrayList<Domotique>>(){}.getType();
+                            Type type = new TypeToken<ArrayList<Device>>(){}.getType();
                             devices.clear();
                             devices.addAll(gson.fromJson(devicesName, type));
                             devicesAdapter.notifyDataSetChanged();
@@ -160,19 +161,19 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     public void deleteSensors(View view) {
-        int count = adapter.getCount();
+        int count = sensorsAdapter.getCount();
         for (int i = 0; i < count; i++) {
-            Domotique domotique = (Domotique) sensorsListView.getItemAtPosition(i);
-            if (domotique.isChecked()) {
+            Sensor sensor = (Sensor) sensorsListView.getItemAtPosition(i);
+            if (sensor.isChecked()) {
                 AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/sensor-delete")
                         .addHeaders("Authorization", bearerToken)
-                        .addBodyParameter("idSensor", String.valueOf(domotique.getId()))
+                        .addBodyParameter("idSensor", String.valueOf(sensor.getId()))
                         .build()
                         .getAsOkHttpResponse(new OkHttpResponseListener() {
                             @Override
                             public void onResponse(Response response) {
-                                sensors.remove(domotique);
-                                adapter.notifyDataSetChanged();
+                                sensors.remove(sensor);
+                                sensorsAdapter.notifyDataSetChanged();
                             }
 
                             @Override
@@ -197,19 +198,18 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     public void deleteDevices(View view) {
-        int count = adapter.getCount();
-        for (int i = 0; i < count; i++) {
-            Domotique domotique = (Domotique) sensorsListView.getItemAtPosition(i);
-            if (domotique.isChecked()) {
-                AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/sensor-delete")
+        for (int i = 0; i < devicesListView.getCount(); i++) {
+            Device device = (Device) devicesListView.getItemAtPosition(i);
+            if (device.isChecked()) {
+                AndroidNetworking.post("https://myhouse.lesmoulinsdudev.com/device-delete")
                         .addHeaders("Authorization", bearerToken)
-                        .addBodyParameter("idSensor", String.valueOf(domotique.getId()))
+                        .addBodyParameter("idDevice", String.valueOf(device.getId()))
                         .build()
                         .getAsOkHttpResponse(new OkHttpResponseListener() {
                             @Override
                             public void onResponse(Response response) {
-                                sensors.remove(domotique);
-                                adapter.notifyDataSetChanged();
+                                devices.remove(device);
+                                devicesAdapter.notifyDataSetChanged();
                             }
 
                             @Override

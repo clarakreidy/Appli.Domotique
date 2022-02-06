@@ -1,14 +1,11 @@
 package com.clarakreidy.projet;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -17,9 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.OkHttpResponseListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -28,25 +22,17 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import okhttp3.Response;
-
-public class DomotiqueAdapter extends ArrayAdapter<Domotique> {
-    //the list values in the List of type hero
-    ArrayList<Domotique> domotiques;
-
-    //activity context
+public class DeviceAdapter extends ArrayAdapter<Device> {
+    ArrayList<Device> devices;
     Context context;
-
-    //the layout resource file for the list items
     int resource;
 
-    public DomotiqueAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Domotique> objects) {
+    public DeviceAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Device> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
-        this.domotiques = objects;
+        this.devices = objects;
     }
 
     //this will return the ListView Item as a View
@@ -62,24 +48,18 @@ public class DomotiqueAdapter extends ArrayAdapter<Domotique> {
         View view = layoutInflater.inflate(resource, null, false);
 
         //getting the view elements of the list from the view
-        ImageView imageView = view.findViewById(R.id.domotique_img);
-        TextView textName = view.findViewById(R.id.domotique_name);
-        CheckBox checkBox = view.findViewById(R.id.checkbox_to_delete);
+        ImageView imageView = view.findViewById(R.id.device_img);
+        TextView textName = view.findViewById(R.id.device_name);
+        CheckBox checkBox = view.findViewById(R.id.checkbox_to_delete_device);
 
         //getting the hero of the specified position
-        Domotique domotique = domotiques.get(position);
-
-        //Thermometer Typo Handling
-        if(domotique.getPicture().contains("termometer"))
-        {
-            domotique.setPicture("img/thermometer.png");
-        }
+        Device device = devices.get(position);
 
         //adding values to the list item
         Glide.with(context)
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .load("https://myhouse.lesmoulinsdudev.com/" + domotique.getPicture())
+                .load("https://myhouse.lesmoulinsdudev.com/" + device.getPicture())
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
@@ -91,12 +71,12 @@ public class DomotiqueAdapter extends ArrayAdapter<Domotique> {
                         return false;
                     }
                 }).into(imageView);
-        textName.setText(domotique.getName());
+        textName.setText(device.getName());
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                domotique.setChecked(b);
+                device.setChecked(b);
             }
         });
 
@@ -104,3 +84,4 @@ public class DomotiqueAdapter extends ArrayAdapter<Domotique> {
         return view;
     }
 }
+

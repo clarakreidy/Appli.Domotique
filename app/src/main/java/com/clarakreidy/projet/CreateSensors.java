@@ -44,7 +44,7 @@ import okhttp3.Response;
 
 public class CreateSensors extends DialogFragment {
 
-    ArrayList<Domotique> sensors = new ArrayList<>();
+    ArrayList<Sensor> sensors = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class CreateSensors extends DialogFragment {
         ImageView imageView = (ImageView) view.findViewById(R.id.domotique_preview_img);
         Spinner spinner = (Spinner) view.findViewById(R.id.domotique_img_spinner);
         Button button = (Button) view.findViewById(R.id.save_new_domotique);
-        EditText domotiqueName = (EditText) view.findViewById(R.id.new_domotique_name);
+        EditText sensorName = (EditText) view.findViewById(R.id.new_domotique_name);
 
         String bearerToken = "Bearer " + getActivity().getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
 
@@ -88,11 +88,11 @@ public class CreateSensors extends DialogFragment {
                         try {
                             String result = response.getJSONArray("sensor-types").toString();
                             Gson gson = new Gson();
-                            Type type = new TypeToken<ArrayList<Domotique>>(){}.getType();
+                            Type type = new TypeToken<ArrayList<Sensor>>(){}.getType();
                             sensors.clear();
                             sensors.addAll(gson.fromJson(result, type));
 
-                            ArrayAdapter<Domotique> arrayAdapter = new ArrayAdapter<>(
+                            ArrayAdapter<Sensor> arrayAdapter = new ArrayAdapter<>(
                                     getContext(),
                                     android.R.layout.simple_spinner_dropdown_item,
                                     sensors
@@ -113,7 +113,7 @@ public class CreateSensors extends DialogFragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Domotique selected = (Domotique) spinner.getSelectedItem();
+                Sensor selected = (Sensor) spinner.getSelectedItem();
                 //Thermometer Typo Handling
                 if(selected.getPicture().contains("termometer"))
                 {
@@ -149,8 +149,8 @@ public class CreateSensors extends DialogFragment {
         });
 
         button.setOnClickListener(v -> {
-            String name = domotiqueName.getText().toString();
-            Integer idSensorType = ((Domotique) spinner.getSelectedItem()).getId();
+            String name = sensorName.getText().toString();
+            Integer idSensorType = ((Sensor) spinner.getSelectedItem()).getId();
             Integer idRoom = roomId;
             Intent intent = new Intent(getContext(), RoomActivity.class);
             intent.putExtra("id", idRoom);
