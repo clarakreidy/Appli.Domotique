@@ -31,8 +31,9 @@
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <Space
-            android:layout_width="139dp"
+        <Switch
+            android:id="@+id/device_switch"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 

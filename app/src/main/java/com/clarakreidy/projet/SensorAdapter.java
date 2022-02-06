@@ -1,5 +1,7 @@
 package com.clarakreidy.projet;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -14,13 +16,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class SensorAdapter extends ArrayAdapter<Sensor> {
@@ -51,6 +61,7 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
         ImageView imageView = view.findViewById(R.id.sensor_img);
         TextView textName = view.findViewById(R.id.sensor_name);
         CheckBox checkBox = view.findViewById(R.id.checkbox_to_delete_sensor);
+        TextView sensorValue = view.findViewById(R.id.sensor_value);
 
         //getting the hero of the specified position
         Sensor sensor = sensors.get(position);
@@ -85,6 +96,36 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
                 sensor.setChecked(b);
             }
         });
+
+        String bearerToken = "Bearer " + context.getSharedPreferences("Auth", MODE_PRIVATE).getString("token", "");
+
+        AndroidNetworking.get("https://myhouse.lesmoulinsdudev.com/sensor-value")
+                .addHeaders("Authorization", bearerToken)
+                .addQueryParameter("idSensor", String.valueOf(sensor.getId()))
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    class SensorValue {
+                        float value;
+                        String unit;
+                    }
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<SensorValue>(){}.getType();
+                        SensorValue sv = gson.fromJson(response.toString(), type);
+
+                        sensor.setValue(sv.value);
+                        sensor.setUnit(sv.unit);
+
+                        sensorValue.setText(sensor.getValue() + sensor.getUnit());
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+
+                    }
+                });
 
         //finally returning the view
         return view;

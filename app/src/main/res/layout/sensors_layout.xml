@@ -31,10 +31,14 @@
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <Space
-            android:layout_width="139dp"
+        <TextView
+            android:id="@+id/sensor_value"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="20°"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold" />
 
         <CheckBox
             android:id="@+id/checkbox_to_delete_sensor"
